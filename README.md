@@ -1,11 +1,9 @@
-# -projet_mongodb_solo
-
 # **Jour 1 :**
 Questions relevées dans le cours :
 
 ---
 
-### **Question 1 : Différence mysql mongodb de la clé primaire**
+### **1 : Différence mysql mongodb de la clé primaire**
 Les collections MongoDB sont indexées par défaut et elles sont toutes créées au-dessus des fichiers mappés en mémoire, contrairement aux SGBDR normaux où les index sont créés au fur et à mesure des besoins sur le tas ou les clusters. Néanmoins, le concept sous-jacent de l'indexation est similaire à une structure B-Tree.
 
 Une autre distinction réside dans le fait qu'une collection MongoDB peut avoir un maximum de 64 index alors qu'un SGBDR comme Oracle 11g peut autoriser un maximum de 1000 colonnes dans une table et donc 1000 index par table.
@@ -18,21 +16,21 @@ Source : https://www.quora.com/How-is-the-MongoDB-index-different-from-a-regular
 
 ---
 
-### **Question 2 : Dans quels domaine l'utilisation de mongodb est adapté et utilisé ?**
+### **2 : Dans quels domaine l'utilisation de mongodb est adapté et utilisé ?**
 
 On pourrait utiliser mongodb dans le domaine du bigdata, par exemple. Un domaine dans lequel on a besoin de rajouter constamment de nouvelles données, nouvelles tables et colonnes.
 Mongodb est adapté, car les schema sont flexible, facile à maintenir, modifier et d'utilisation et mongodb est fait pour scaleup rapidement.
 
 ---
 
-### **Question 3 : Qu'est-ce que la fonction explain ?**
+### **3 : Qu'est-ce que la fonction explain ?**
 
 L'opérateur $explain fournit des informations sur le plan de la requête. Il renvoie un document qui décrit le processus et les index utilisés pour renvoyer la requête. Cela peut fournir des informations utiles lorsque l'on tente d'optimiser une requête. Pour plus de détails sur la sortie, voir cursor.explain().
 
 Source : https://docs.mongodb.com/manual/reference/operator/meta/explain/
 
 
-### **Question 4 : Donner un exemple de fonction insert, update, delete, find et find pretty**
+### **4 : Donner un exemple de fonction insert, update, delete, find et find pretty**
 #### INSERT
 ```
 db.RESTAURANTS.insert({NOM:"jean",ADRESSE:{LIBELLE:"1056 Rue de la République", VILLE:"Sathonay-Camp", CP:"69580"}})
@@ -80,7 +78,7 @@ Je ne vois pas de différence avec la fonction pretty
 
 ---
 
-### **Question 5 : Prouver l'efficacité des index**
+### **5 : Prouver l'efficacité des index**
 Grace à la fonction explain, nous allons pouvoir comparer le temps d'execution des requêtes, grace au champ "executionTimeMillis" qui retourne le temps d'execution en millisecondes. Nous allons utiliser la collection "CLIENTS" contenant 1 million de clients.
 
 ![image](https://user-images.githubusercontent.com/58698088/148981851-af133a9a-264a-4cc9-af70-6fbde32ed531.png)
@@ -111,7 +109,7 @@ On gagne 2 ms d'execution quand on fait un find sur le champ PRENOM dans une tab
 
 ---
 
-### **Question 6 : Est-ce qu'on peut enregistrer des fichiers/images dans mongodb ?**
+### **6 : Est-ce qu'on peut enregistrer des fichiers/images dans mongodb ?**
 
 On peut utiliser GridFS pour enregistrer des fichiers de plus de 100Mo.
 Ainsi que BSON, cependant bson enregistre les fichiers dans des chunks de 4Mo.
@@ -121,12 +119,12 @@ https://docs.mongodb.com/manual/core/gridfs/
 
 ---
 
-### **Question 6 : Quels types de données peut-on stocker dans mongodb ?**
+### **7 : Quels types de données peut-on stocker dans mongodb ?**
 On peut stocker des strings, floats, données géospatiales, devises, transactions, documents...
 
 ---
 
-### **Question 7 : Est-ce que les sous-objets permettent d'éviter les jointures ?**
+### **8 : Est-ce que les sous-objets permettent d'éviter les jointures ?**
 Oui ! Cela permet d'éviter les jointures.
 Par exemple on peut faire une array contenant rue, nom voie, numero, appartement, batiment, code postal, commune... dans un sous-objet.
 Ca évite de créer une autre table pour accéder à des informations pértinentes liées à la table dans laquelle on est actuellement.
@@ -135,7 +133,7 @@ Cependant je ne pense pas que ce soit judicieux de stocker les commandes d'un ut
 
 ---
 
-### **Question 8 : Discutez de la documentation disponible en fonction de vos choix technologiques et de vos choix d’installation. ?**
+### **9 : Discutez de la documentation disponible en fonction de vos choix technologiques et de vos choix d’installation. ?**
 Nous utilisons MongoDB car c'est du NoSQL. Le fait que ce soit du NoSQL, nous permet de modifier, étendre les documents et collections à souhait, le tout très facilement.
 De plus MongoDB permet de scale up très rapidement et facilement.
 
@@ -143,7 +141,7 @@ On a choisit Atlas car personnellement je l'ai déjà utilisé par le passé, et
 
 ---
 
-### **Question 9 : Quel domaine se spécialise dans la gestion d’énormes quantités de données ? MongoDB fait-il parti des SGBDs adaptés ? Citez une alternative (outre SGBD NoSQL) et présentez-la brièvement ?**
+### **10 : Quel domaine se spécialise dans la gestion d’énormes quantités de données ? MongoDB fait-il parti des SGBDs adaptés ? Citez une alternative (outre SGBD NoSQL) et présentez-la brièvement ?**
 
 Le Bigdata est le domaine de prédilection qui se spécialise dans la gestion d'énormes quantités de données; exemple: Google.
 MongoDB est adapté, car vu que c'est du NoSQL, cela permet de scale up rapidement.
@@ -151,3 +149,133 @@ MongoDB est adapté, car vu que c'est du NoSQL, cela permet de scale up rapideme
 MySQL est un SGBD alternatif. C'est un système de gestion de base de données relationnelle développé par Oracle et basé sur le Structured Query Language (SQL).
 
 Une base de données est une collection structurée de données. Il peut s'agir de n'importe quoi, d'une simple liste de courses à une galerie de photos, en passant par un endroit où stocker des informations de clients.
+
+---
+
+# **Jour 2 :**
+
+---
+
+# **Questionnaire :**
+### **1.	Ecrivez une requête MongoDB pour afficher tous les documents dans les restaurants de la collection**
+« find » suffit à récupérer toutes les données. On affine le résultat des recherches en détaillant la requête.
+```
+[]
+```
+
+---
+
+### **2.	Ecrivez une requête MongoDB pour afficher les champs restaurant_id, name, borough et cuisine pour tous les documents de la collection restaurant.**
+```
+[
+  {
+    '$project': {
+      'restaurant_id': 1, 
+      'name': 1, 
+      'borough': 1, 
+      'cuisine': 1
+    }
+  }
+]
+```
+
+---
+
+### **3. Ecrivez une requête MongoDB pour afficher les champs restaurant_id, name, borough et cuisine, mais exclure le champ _id pour tous les documents de la collection restaurant.**
+```
+[
+  {
+    '$project': {
+      'restaurant_id': 1, 
+      'name': 1, 
+      'borough': 1, 
+      'cuisine': 1, 
+      '_id': 0
+    }
+  }
+]
+
+```
+
+---
+
+### **4. Ecrivez une requête MongoDB pour afficher les champs restaurant_id, nom, arrondissement et code postal, mais excluez le champ _id pour tous les documents de la collection restaurant.**
+```
+[
+  {
+    '$project': {
+      'restaurant_id': 1, 
+      'nom': 1, 
+      'borough': 1, 
+      'address.zipcode': 1, 
+      '_id': 0
+    }
+  }
+]
+```
+
+---
+
+### **5. Ecrivez une requête MongoDB pour afficher tous les restaurants qui sont dans l'arrondissement du Bronx.**
+```
+[
+  {
+    '$project': {
+      'borough': 'Bronx'
+    }
+  }
+]
+```
+
+---
+
+### **6. Ecrivez une requête MongoDB pour afficher les 5 premiers restaurants qui se trouvent dans le quartier du Bronx. Aller à l'éditeur**
+```
+[
+  {
+    '$project': {
+      'borough': 'Bronx'
+    }
+  }, {
+    '$limit': 5
+  }
+]
+```
+
+---
+
+### **7. Ecrivez une requête MongoDB pour afficher les 5 restaurants suivants après avoir sauté les 5 premiers qui sont dans le quartier du Bronx.**
+```
+[
+  {
+    '$project': {
+      'borough': 'Bronx'
+    }
+  }, {
+    '$skip': 5
+  }, {
+    '$limit': 5
+  }
+]
+```
+
+---
+
+### **8. Ecrivez une requête MongoDB pour trouver les restaurants qui ont obtenu un score supérieur à 90. **
+```
+db.restaurants.find({ "grades.score": { $gte: 90 }})
+```
+
+---
+
+### **9. Ecrivez une requête MongoDB pour trouver les restaurants qui ont obtenu un score supérieur à 80 mais inférieur à 100**
+```
+db.restaurants.find({ "grades.score": { $gte: 90 }, "grades.score": { $lte: 100 }})
+```
+
+---
+
+### **10. Ecrivez une requête MongoDB pour trouver les restaurants qui se situent dans une latitude inférieure à -95,754168.**
+```
+db.restaurants.find({ "address.coord.0": { $gte: -95.754168 }})
+```
