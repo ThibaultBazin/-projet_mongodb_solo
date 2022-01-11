@@ -158,6 +158,8 @@ Source : https://docs.mongodb.com/manual/reference/operator/meta/explain/
 
 ### **4 : Donner un exemple de fonction insert, update, delete, find et find pretty**
 #### INSERT
+Permet d'insérer une ligne.
+Il existe aussi insertMany pour insérer plusieurs lignes d'un coup.
 ```
 db.RESTAURANTS.insert({NOM:"jean",ADRESSE:{LIBELLE:"1056 Rue de la République", VILLE:"Sathonay-Camp", CP:"69580"}})
 ```
@@ -168,6 +170,7 @@ db.RESTAURANTS.insert({NOM:"jean",ADRESSE:{LIBELLE:"1056 Rue de la République",
 ---
 
 #### UPDATE
+Permet de modifier les lignes correspondant au premier argument.
 ```
 db.RESTAURANTS.updateOne({NOM:"jean"}, { $set: {NOM:"Michel"}})
 ```
@@ -179,6 +182,7 @@ db.RESTAURANTS.updateOne({NOM:"jean"}, { $set: {NOM:"Michel"}})
 ---
 
 #### DELETE
+Supprime les lignes contenant ce que l'on souhaite.
 ```
 db.RESTAURANTS.remove({NOM:"Michel"})
 ```
@@ -187,6 +191,7 @@ db.RESTAURANTS.remove({NOM:"Michel"})
 ---
 
 #### FIND
+Rechercher des données
 ```
 db.RESTAURANTS.find({NOM:"test"})
 ```
@@ -281,3 +286,7 @@ Une base de données est une collection structurée de données. Il peut s'agir 
 # **Jour 2 :**
 
 ---
+
+### **1 : utilité requete géospatiale, discuter structure geoJson, illustré avec exemple geochart?**
+
+
