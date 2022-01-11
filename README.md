@@ -28,7 +28,51 @@ L'opérateur $explain fournit des informations sur le plan de la requête. Il re
 Source : https://docs.mongodb.com/manual/reference/operator/meta/explain/
 
 
-# **Question 4 : Donner un exemple de fonction create, update, delete et read (avec la fonction pretty)**
+# **Question 4 : Donner un exemple de fonction insert, update, delete, find et find pretty**
+INSERT
+```
+db.RESTAURANTS.insert({NOM:"jean",ADRESSE:{LIBELLE:"1056 Rue de la République", VILLE:"Sathonay-Camp", CP:"69580"}})
+```
+![image](https://user-images.githubusercontent.com/58698088/148983421-47318614-8772-443f-9fd3-a54f2e2659d3.png)
+
+![image](https://user-images.githubusercontent.com/58698088/148982703-cdc8497f-c05f-4b7e-ae60-9813ba4ab535.png)
+
+---
+
+UPDATE
+```
+db.RESTAURANTS.updateOne({NOM:"jean"}, { $set: {NOM:"Michel"}})
+```
+
+![image](https://user-images.githubusercontent.com/58698088/148983187-98ea3353-9d7b-487e-b14b-f19ab075a833.png)
+
+![image](https://user-images.githubusercontent.com/58698088/148983205-16f6716c-ea3b-444a-a5eb-219aa49627df.png)
+
+---
+
+DELETE
+```
+db.RESTAURANTS.remove({NOM:"Michel"})
+```
+![image](https://user-images.githubusercontent.com/58698088/148983710-d25577c0-7d9c-4795-a248-61f8783db2bb.png)
+
+---
+
+FIND
+```
+db.RESTAURANTS.find({NOM:"test"})
+```
+![image](https://user-images.githubusercontent.com/58698088/148984053-c8b7c39c-d821-4551-9de7-925d99db26ff.png)
+
+---
+
+FIND pretty
+```
+db.RESTAURANTS.find({NOM:"test"}).pretty()
+```
+Je ne vois pas de différence avec la fonction pretty
+
+![image](https://user-images.githubusercontent.com/58698088/148984172-535c8b13-2999-41cb-9e59-a042ca6e87c2.png)
 
 
 # **Question 5 : Prouver l'efficacité des index**
@@ -96,9 +140,3 @@ MongoDB est adapté, car vu que c'est du NoSQL, cela permet de scale up rapideme
 MySQL est un SGBD alternatif. C'est un système de gestion de base de données relationnelle développé par Oracle et basé sur le Structured Query Language (SQL).
 
 Une base de données est une collection structurée de données. Il peut s'agir de n'importe quoi, d'une simple liste de courses à une galerie de photos, en passant par un endroit où stocker des informations de clients.
-
-
-# **Question 10 : create update delete read (fonction pretty)**
-Je ne vois pas de différence avec la fonction pretty
-![image](https://user-images.githubusercontent.com/58698088/148981369-cc8b20cc-ac0d-42a1-b350-395499eed39f.png)
-
