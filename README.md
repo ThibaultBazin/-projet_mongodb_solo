@@ -1,9 +1,11 @@
 # -projet_mongodb_solo
 
-**Jour 1 :**
-Questions relevées dans le cours :**
+# **Jour 1 :**
+Questions relevées dans le cours :
 
-# **Question 1 : Différence mysql mongodb de la clé primaire**
+---
+
+### **Question 1 : Différence mysql mongodb de la clé primaire**
 Les collections MongoDB sont indexées par défaut et elles sont toutes créées au-dessus des fichiers mappés en mémoire, contrairement aux SGBDR normaux où les index sont créés au fur et à mesure des besoins sur le tas ou les clusters. Néanmoins, le concept sous-jacent de l'indexation est similaire à une structure B-Tree.
 
 Une autre distinction réside dans le fait qu'une collection MongoDB peut avoir un maximum de 64 index alors qu'un SGBDR comme Oracle 11g peut autoriser un maximum de 1000 colonnes dans une table et donc 1000 index par table.
@@ -14,22 +16,24 @@ Il convient de noter que la distinction sera différente selon les bases de donn
 
 Source : https://www.quora.com/How-is-the-MongoDB-index-different-from-a-regular-RDBMS-index
 
+---
 
-# **Question 2 : Dans quels domaine l'utilisation de mongodb est adapté et utilisé ?**
+### **Question 2 : Dans quels domaine l'utilisation de mongodb est adapté et utilisé ?**
 
 On pourrait utiliser mongodb dans le domaine du bigdata, par exemple. Un domaine dans lequel on a besoin de rajouter constamment de nouvelles données, nouvelles tables et colonnes.
 Mongodb est adapté, car les schema sont flexible, facile à maintenir, modifier et d'utilisation et mongodb est fait pour scaleup rapidement.
 
+---
 
-# **Question 3 : Qu'est-ce que la fonction explain ?**
+### **Question 3 : Qu'est-ce que la fonction explain ?**
 
 L'opérateur $explain fournit des informations sur le plan de la requête. Il renvoie un document qui décrit le processus et les index utilisés pour renvoyer la requête. Cela peut fournir des informations utiles lorsque l'on tente d'optimiser une requête. Pour plus de détails sur la sortie, voir cursor.explain().
 
 Source : https://docs.mongodb.com/manual/reference/operator/meta/explain/
 
 
-# **Question 4 : Donner un exemple de fonction insert, update, delete, find et find pretty**
-INSERT
+### **Question 4 : Donner un exemple de fonction insert, update, delete, find et find pretty**
+#### INSERT
 ```
 db.RESTAURANTS.insert({NOM:"jean",ADRESSE:{LIBELLE:"1056 Rue de la République", VILLE:"Sathonay-Camp", CP:"69580"}})
 ```
@@ -39,7 +43,7 @@ db.RESTAURANTS.insert({NOM:"jean",ADRESSE:{LIBELLE:"1056 Rue de la République",
 
 ---
 
-UPDATE
+#### UPDATE
 ```
 db.RESTAURANTS.updateOne({NOM:"jean"}, { $set: {NOM:"Michel"}})
 ```
@@ -50,7 +54,7 @@ db.RESTAURANTS.updateOne({NOM:"jean"}, { $set: {NOM:"Michel"}})
 
 ---
 
-DELETE
+#### DELETE
 ```
 db.RESTAURANTS.remove({NOM:"Michel"})
 ```
@@ -58,7 +62,7 @@ db.RESTAURANTS.remove({NOM:"Michel"})
 
 ---
 
-FIND
+#### FIND
 ```
 db.RESTAURANTS.find({NOM:"test"})
 ```
@@ -66,7 +70,7 @@ db.RESTAURANTS.find({NOM:"test"})
 
 ---
 
-FIND pretty
+#### FIND pretty
 ```
 db.RESTAURANTS.find({NOM:"test"}).pretty()
 ```
@@ -74,8 +78,9 @@ Je ne vois pas de différence avec la fonction pretty
 
 ![image](https://user-images.githubusercontent.com/58698088/148984172-535c8b13-2999-41cb-9e59-a042ca6e87c2.png)
 
+---
 
-# **Question 5 : Prouver l'efficacité des index**
+### **Question 5 : Prouver l'efficacité des index**
 Grace à la fonction explain, nous allons pouvoir comparer le temps d'execution des requêtes, grace au champ "executionTimeMillis" qui retourne le temps d'execution en millisecondes. Nous allons utiliser la collection "CLIENTS" contenant 1 million de clients.
 
 ![image](https://user-images.githubusercontent.com/58698088/148981851-af133a9a-264a-4cc9-af70-6fbde32ed531.png)
@@ -104,8 +109,9 @@ executionTimeMillis: 2
 
 On gagne 2 ms d'execution quand on fait un find sur le champ PRENOM dans une table d'1M de lignes.
 
+---
 
-# **Question 6 : Est-ce qu'on peut enregistrer des fichiers/images dans mongodb ?**
+### **Question 6 : Est-ce qu'on peut enregistrer des fichiers/images dans mongodb ?**
 
 On peut utiliser GridFS pour enregistrer des fichiers de plus de 100Mo.
 Ainsi que BSON, cependant bson enregistre les fichiers dans des chunks de 4Mo.
@@ -113,26 +119,31 @@ Il est aussi possible d'enregistrer les fichiers en base64.
 
 https://docs.mongodb.com/manual/core/gridfs/
 
+---
 
-# **Question 6 : Quels types de données peut-on stocker dans mongodb ?**
+### **Question 6 : Quels types de données peut-on stocker dans mongodb ?**
 On peut stocker des strings, floats, données géospatiales, devises, transactions, documents...
 
+---
 
-# **Question 7 : Est-ce que les sous-objets permettent d'éviter les jointures ?**
+### **Question 7 : Est-ce que les sous-objets permettent d'éviter les jointures ?**
 Oui ! Cela permet d'éviter les jointures.
 Par exemple on peut faire une array contenant rue, nom voie, numero, appartement, batiment, code postal, commune... dans un sous-objet.
 Ca évite de créer une autre table pour accéder à des informations pértinentes liées à la table dans laquelle on est actuellement.
 
 Cependant je ne pense pas que ce soit judicieux de stocker les commandes d'un utilisateur dans un sous objet. Il faut faire une ligne par commande.
 
-# **Question 8 : Discutez de la documentation disponible en fonction de vos choix technologiques et de vos choix d’installation. ?**
+---
+
+### **Question 8 : Discutez de la documentation disponible en fonction de vos choix technologiques et de vos choix d’installation. ?**
 Nous utilisons MongoDB car c'est du NoSQL. Le fait que ce soit du NoSQL, nous permet de modifier, étendre les documents et collections à souhait, le tout très facilement.
 De plus MongoDB permet de scale up très rapidement et facilement.
 
 On a choisit Atlas car personnellement je l'ai déjà utilisé par le passé, et permet un setup simple, rapide, gratuit et efficace.
 
+---
 
-# **Question 9 : Quel domaine se spécialise dans la gestion d’énormes quantités de données ? MongoDB fait-il parti des SGBDs adaptés ? Citez une alternative (outre SGBD NoSQL) et présentez-la brièvement ?**
+### **Question 9 : Quel domaine se spécialise dans la gestion d’énormes quantités de données ? MongoDB fait-il parti des SGBDs adaptés ? Citez une alternative (outre SGBD NoSQL) et présentez-la brièvement ?**
 
 Le Bigdata est le domaine de prédilection qui se spécialise dans la gestion d'énormes quantités de données; exemple: Google.
 MongoDB est adapté, car vu que c'est du NoSQL, cela permet de scale up rapidement.
