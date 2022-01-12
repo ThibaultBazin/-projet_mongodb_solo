@@ -283,10 +283,31 @@ Une base de données est une collection structurée de données. Il peut s'agir 
 
 ---
 
-# **Jour 2 :**
+### **1 : utilité requete géospatiale, discuter structure geoJson, illustré avec exemple geochart?**
+
+Grace à geoJson, et les requêtes de géospatialisation, nous pouvons déterminer les restaurants aux alentours de nos clients. Grace à ça, nous pouvons leur proposer des promotions.
+
+Grace à la requête ci-dessous, nous pouvons récupérer les villes aux alentours.
+
+```
+var paris = { type: "Ville, coordinates: [ 48.856614, 2.3522219 ]};
+
+db.restaurants.find({
+  "localisation": {
+    $nearSphere: {
+      $geometry: paris
+    }
+  }
+})
+```
 
 ---
 
-### **1 : utilité requete géospatiale, discuter structure geoJson, illustré avec exemple geochart?**
+### **Est-ce que les index peuvent ralentir une requête ?**
 
+Oui.
 
+- Un index peut ralentir les opérations INSERT car l'index doit être mis à jour pour chaque ligne insérée.
+- Il peut ralentir les opérations UPDATE où la colonne indexée est mise à jour.
+- Il peut ralentir les opérations DELETE car l'index doit être mis à jour pour chaque ligne supprimée.
+- Il peut ou non accélérer les opérations SELECT, en fonction des attributs de la requête par rapport à la définition de l'index et du plan d'exécution choisi par l'optimiseur.
