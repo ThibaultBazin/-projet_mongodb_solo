@@ -11,12 +11,18 @@ Le projet dans son ensemble ne sera pas forcément terminé cete semaine, en rev
 
 ---
 
-## Pourquoi utiliser MongoDB ?
+## Pourquoi utiliser MongoDB ? Quels choix technologiques et d'installation avons nous choisit ?
+(Discutez de la documentation disponible en fonction de vos choix technologiques et de vos choix d’installation)
 
 MongoDB possède une capacité de requête approfondie. MongoDB prend en charge les requêtes dynamiques sur des documents à l'aide d'un langage de requête basé sur des documents presque aussi puissant que SQL.
 Aucune migration de schéma. Étant donné que MongoDB est sans schéma, notre code définit les schéma.
 
 Il y a aussi d'autres avantages qui apparaîtront à long terme, comme une meilleure scallabilité et une meilleure vitesse.
+
+Nous utilisons MongoDB car c'est du NoSQL. Le fait que ce soit du NoSQL, nous permet de modifier, étendre les documents et collections à souhait, le tout très facilement.
+De plus MongoDB permet de scale up très rapidement et facilement.
+
+On a choisit Atlas car personnellement je l'ai déjà utilisé par le passé, et permet un setup simple, rapide, gratuit et efficace.
 
 ---
 
@@ -32,7 +38,7 @@ Nous avons créé 4 collections :
 
 ---
 
-## Pouvons-nous accélerer le traitement des requêtes ?
+## Pouvons-nous accélerer le traitement des requêtes grace aux index ?
 (Prouver l'efficacité des index)
 
 Grace à la fonction explain, nous allons pouvoir comparer le temps d'execution des requêtes. Le temps d'execution est retourné dans le champ "executionTimeMillis" en millisecondes. Nous allons utiliser la collection "CLIENTS" contenant 1 million de clients.
@@ -60,7 +66,159 @@ En exécutant la même requête, la requête mit ce temps pour être exécutée.
 
 En créant un index, la requête s'est exécutée 119ms plus rapidement.
 
-# **Questionnaire :**
+---
+
+### Est-ce que les index peuvent ralentir une requête ?
+
+Oui.
+
+- Un index peut ralentir les opérations INSERT car l'index doit être mis à jour pour chaque ligne insérée.
+- Il peut ralentir les opérations UPDATE où la colonne indexée est mise à jour.
+- Il peut ralentir les opérations DELETE car l'index doit être mis à jour pour chaque ligne supprimée.
+- Il peut ou non accélérer les opérations SELECT, en fonction des attributs de la requête par rapport à la définition de l'index et du plan d'exécution choisi par l'optimiseur.
+
+---
+
+### Quelle est la différencee entre une clé primaire MySQL et MongoDB ?
+
+Les collections MongoDB sont indexées par défaut et elles sont toutes créées au-dessus des fichiers mappés en mémoire, contrairement aux SGBDR normaux où les index sont créés au fur et à mesure des besoins sur le tas ou les clusters. Néanmoins, le concept sous-jacent de l'indexation est similaire à une structure B-Tree.
+
+Une autre distinction réside dans le fait qu'une collection MongoDB peut avoir un maximum de 64 index alors qu'un SGBDR comme Oracle 11g peut autoriser un maximum de 1000 colonnes dans une table et donc 1000 index par table.
+
+De même, un index composé dans MongoDB ne peut pas contenir plus de 32 champs, ce qui est le cas dans un SGBDR comme Oracle 11g.
+
+Il convient de noter que la distinction sera différente selon les bases de données.
+
+Source : https://www.quora.com/How-is-the-MongoDB-index-different-from-a-regular-RDBMS-index
+
+---
+
+### Dans quels domaine l'utilisation de MongoDB est adapté et utilisé ?
+
+On pourrait utiliser mongodb dans le domaine du bigdata, par exemple. Un domaine dans lequel on a besoin de rajouter constamment de nouvelles données, nouvelles tables et colonnes.
+Mongodb est adapté, car les schema sont flexible, facile à maintenir, modifier et d'utilisation et mongodb est fait pour scaleup rapidement.
+
+---
+
+### Qu'est-ce que la fonction explain ?
+
+L'opérateur $explain fournit des informations sur le plan de la requête. Il renvoie un document qui décrit le processus et les index utilisés pour renvoyer la requête. Cela peut fournir des informations utiles lorsque l'on tente d'optimiser une requête. Pour plus de détails sur la sortie, voir cursor.explain().
+
+Source : https://docs.mongodb.com/manual/reference/operator/meta/explain/
+
+---
+
+### Donner un exemple de fonction insert, update, delete, find et find pretty
+#### INSERT
+Permet d'insérer une ligne.
+Il existe aussi insertMany pour insérer plusieurs lignes d'un coup.
+```
+db.RESTAURANTS.insert({NOM:"jean",ADRESSE:{LIBELLE:"1056 Rue de la République", VILLE:"Sathonay-Camp", CP:"69580"}})
+```
+![image](https://user-images.githubusercontent.com/58698088/148983421-47318614-8772-443f-9fd3-a54f2e2659d3.png)
+
+![image](https://user-images.githubusercontent.com/58698088/148982703-cdc8497f-c05f-4b7e-ae60-9813ba4ab535.png)
+
+---
+
+#### UPDATE
+Permet de modifier les lignes correspondant au premier argument.
+```
+db.RESTAURANTS.updateOne({NOM:"jean"}, { $set: {NOM:"Michel"}})
+```
+
+![image](https://user-images.githubusercontent.com/58698088/148983187-98ea3353-9d7b-487e-b14b-f19ab075a833.png)
+
+![image](https://user-images.githubusercontent.com/58698088/148983205-16f6716c-ea3b-444a-a5eb-219aa49627df.png)
+
+---
+
+#### DELETE
+Supprime les lignes contenant ce que l'on souhaite.
+```
+db.RESTAURANTS.remove({NOM:"Michel"})
+```
+![image](https://user-images.githubusercontent.com/58698088/148983710-d25577c0-7d9c-4795-a248-61f8783db2bb.png)
+
+---
+
+#### FIND
+Rechercher des données
+```
+db.RESTAURANTS.find({NOM:"test"})
+```
+![image](https://user-images.githubusercontent.com/58698088/148984053-c8b7c39c-d821-4551-9de7-925d99db26ff.png)
+
+---
+
+#### FIND pretty
+```
+db.RESTAURANTS.find({NOM:"test"}).pretty()
+```
+Je ne vois pas de différence avec la fonction pretty
+
+![image](https://user-images.githubusercontent.com/58698088/148984172-535c8b13-2999-41cb-9e59-a042ca6e87c2.png)
+
+---
+
+### Est-ce que l'on peut enregistrer des fichiers/images dans MongoDB ?
+
+On peut utiliser GridFS pour enregistrer des fichiers de plus de 100Mo.
+Ainsi que BSON, cependant bson enregistre les fichiers dans des chunks de 4Mo.
+Il est aussi possible d'enregistrer les fichiers en base64.
+
+https://docs.mongodb.com/manual/core/gridfs/
+
+Il est aussi possible d'enregistrer les fichiers en BINARY ou en BASE64.
+
+---
+
+### Quels types de données peut-on stocker dans MongoDB ?
+On peut stocker des strings, floats, données géospatiales, devises, transactions, documents...
+
+---
+
+### Est-ce que les sous-objets permettent d'éviter les jointures ?
+Oui ! Cela permet d'éviter les jointures.
+Par exemple on peut faire une array contenant rue, nom voie, numero, appartement, batiment, code postal, commune... dans un sous-objet.
+Ca évite de créer une autre table pour accéder à des informations pértinentes liées à la table dans laquelle on est actuellement.
+
+Cependant je ne pense pas que ce soit judicieux de stocker les commandes d'un utilisateur dans un sous objet. Il faut faire une ligne par commande.
+
+---
+
+### Quel domaine se spécialise dans la gestion d’énormes quantités de données ? MongoDB fait-il parti des SGBDs adaptés ? Citez une alternative (outre SGBD NoSQL) et présentez-la brièvement ?
+
+Le Big Data est le domaine de prédilection qui se spécialise dans la gestion d'énormes quantités de données; exemple: Google.
+MongoDB est adapté, car vu que c'est du NoSQL, cela permet de scale up rapidement.
+
+MySQL est un SGBD alternatif. C'est un système de gestion de base de données relationnelle développé par Oracle et basé sur le Structured Query Language (SQL).
+
+Une base de données est une collection structurée de données. Il peut s'agir de n'importe quoi, d'une simple liste de courses à une galerie de photos, en passant par un endroit où stocker des informations de clients.
+
+---
+
+### Utilisation de GeoJSON et la géospatialisation.
+
+Dans l'objectif de fidélisation des clients, nous sommes en mesure de leur proposer des promotions dans les restaurants aux alentours de chez eux grace à geoJson, et les requêtes de géospatialisation.
+
+Avec la requête ci-dessous, nous pouvons récupérer les villes aux alentours du client.
+
+```
+var position_client = { type: "Position du client", coordinates: [ 48.856614, 2.3522219 ]};
+
+db.restaurants.find({
+  "localisation": {
+    $nearSphere: {
+      $geometry: position_client
+    }
+  }
+})
+```
+
+---
+
+## Questionnaire
 ### **1.	Ecrivez une requête MongoDB pour afficher tous les documents dans les restaurants de la collection**
 « find » suffit à récupérer toutes les données. On affine le résultat des recherches en détaillant la requête.
 ```
@@ -185,162 +343,3 @@ db.restaurants.find({ "address.coord.0": { $gte: -95.754168 }})
 ```
 
 ---
-
-# **Jour 1 :**
-Questions relevées dans le cours :
-
----
-
-### **1 : Différence mysql mongodb de la clé primaire**
-Les collections MongoDB sont indexées par défaut et elles sont toutes créées au-dessus des fichiers mappés en mémoire, contrairement aux SGBDR normaux où les index sont créés au fur et à mesure des besoins sur le tas ou les clusters. Néanmoins, le concept sous-jacent de l'indexation est similaire à une structure B-Tree.
-
-Une autre distinction réside dans le fait qu'une collection MongoDB peut avoir un maximum de 64 index alors qu'un SGBDR comme Oracle 11g peut autoriser un maximum de 1000 colonnes dans une table et donc 1000 index par table.
-
-De même, un index composé dans MongoDB ne peut pas contenir plus de 32 champs, ce qui est le cas dans un SGBDR comme Oracle 11g.
-
-Il convient de noter que la distinction sera différente selon les bases de données.
-
-Source : https://www.quora.com/How-is-the-MongoDB-index-different-from-a-regular-RDBMS-index
-
----
-
-### **2 : Dans quels domaine l'utilisation de mongodb est adapté et utilisé ?**
-
-On pourrait utiliser mongodb dans le domaine du bigdata, par exemple. Un domaine dans lequel on a besoin de rajouter constamment de nouvelles données, nouvelles tables et colonnes.
-Mongodb est adapté, car les schema sont flexible, facile à maintenir, modifier et d'utilisation et mongodb est fait pour scaleup rapidement.
-
----
-
-### **3 : Qu'est-ce que la fonction explain ?**
-
-L'opérateur $explain fournit des informations sur le plan de la requête. Il renvoie un document qui décrit le processus et les index utilisés pour renvoyer la requête. Cela peut fournir des informations utiles lorsque l'on tente d'optimiser une requête. Pour plus de détails sur la sortie, voir cursor.explain().
-
-Source : https://docs.mongodb.com/manual/reference/operator/meta/explain/
-
-
-### **4 : Donner un exemple de fonction insert, update, delete, find et find pretty**
-#### INSERT
-Permet d'insérer une ligne.
-Il existe aussi insertMany pour insérer plusieurs lignes d'un coup.
-```
-db.RESTAURANTS.insert({NOM:"jean",ADRESSE:{LIBELLE:"1056 Rue de la République", VILLE:"Sathonay-Camp", CP:"69580"}})
-```
-![image](https://user-images.githubusercontent.com/58698088/148983421-47318614-8772-443f-9fd3-a54f2e2659d3.png)
-
-![image](https://user-images.githubusercontent.com/58698088/148982703-cdc8497f-c05f-4b7e-ae60-9813ba4ab535.png)
-
----
-
-#### UPDATE
-Permet de modifier les lignes correspondant au premier argument.
-```
-db.RESTAURANTS.updateOne({NOM:"jean"}, { $set: {NOM:"Michel"}})
-```
-
-![image](https://user-images.githubusercontent.com/58698088/148983187-98ea3353-9d7b-487e-b14b-f19ab075a833.png)
-
-![image](https://user-images.githubusercontent.com/58698088/148983205-16f6716c-ea3b-444a-a5eb-219aa49627df.png)
-
----
-
-#### DELETE
-Supprime les lignes contenant ce que l'on souhaite.
-```
-db.RESTAURANTS.remove({NOM:"Michel"})
-```
-![image](https://user-images.githubusercontent.com/58698088/148983710-d25577c0-7d9c-4795-a248-61f8783db2bb.png)
-
----
-
-#### FIND
-Rechercher des données
-```
-db.RESTAURANTS.find({NOM:"test"})
-```
-![image](https://user-images.githubusercontent.com/58698088/148984053-c8b7c39c-d821-4551-9de7-925d99db26ff.png)
-
----
-
-#### FIND pretty
-```
-db.RESTAURANTS.find({NOM:"test"}).pretty()
-```
-Je ne vois pas de différence avec la fonction pretty
-
-![image](https://user-images.githubusercontent.com/58698088/148984172-535c8b13-2999-41cb-9e59-a042ca6e87c2.png)
-
----
-
----
-
-### **6 : Est-ce qu'on peut enregistrer des fichiers/images dans mongodb ?**
-
-On peut utiliser GridFS pour enregistrer des fichiers de plus de 100Mo.
-Ainsi que BSON, cependant bson enregistre les fichiers dans des chunks de 4Mo.
-Il est aussi possible d'enregistrer les fichiers en base64.
-
-https://docs.mongodb.com/manual/core/gridfs/
-
----
-
-### **7 : Quels types de données peut-on stocker dans mongodb ?**
-On peut stocker des strings, floats, données géospatiales, devises, transactions, documents...
-
----
-
-### **8 : Est-ce que les sous-objets permettent d'éviter les jointures ?**
-Oui ! Cela permet d'éviter les jointures.
-Par exemple on peut faire une array contenant rue, nom voie, numero, appartement, batiment, code postal, commune... dans un sous-objet.
-Ca évite de créer une autre table pour accéder à des informations pértinentes liées à la table dans laquelle on est actuellement.
-
-Cependant je ne pense pas que ce soit judicieux de stocker les commandes d'un utilisateur dans un sous objet. Il faut faire une ligne par commande.
-
----
-
-### **9 : Discutez de la documentation disponible en fonction de vos choix technologiques et de vos choix d’installation. ?**
-Nous utilisons MongoDB car c'est du NoSQL. Le fait que ce soit du NoSQL, nous permet de modifier, étendre les documents et collections à souhait, le tout très facilement.
-De plus MongoDB permet de scale up très rapidement et facilement.
-
-On a choisit Atlas car personnellement je l'ai déjà utilisé par le passé, et permet un setup simple, rapide, gratuit et efficace.
-
----
-
-### **10 : Quel domaine se spécialise dans la gestion d’énormes quantités de données ? MongoDB fait-il parti des SGBDs adaptés ? Citez une alternative (outre SGBD NoSQL) et présentez-la brièvement ?**
-
-Le Bigdata est le domaine de prédilection qui se spécialise dans la gestion d'énormes quantités de données; exemple: Google.
-MongoDB est adapté, car vu que c'est du NoSQL, cela permet de scale up rapidement.
-
-MySQL est un SGBD alternatif. C'est un système de gestion de base de données relationnelle développé par Oracle et basé sur le Structured Query Language (SQL).
-
-Une base de données est une collection structurée de données. Il peut s'agir de n'importe quoi, d'une simple liste de courses à une galerie de photos, en passant par un endroit où stocker des informations de clients.
-
----
-
-### **1 : utilité requete géospatiale, discuter structure geoJson, illustré avec exemple geochart?**
-
-Grace à geoJson, et les requêtes de géospatialisation, nous pouvons déterminer les restaurants aux alentours de nos clients. Grace à ça, nous pouvons leur proposer des promotions.
-
-Grace à la requête ci-dessous, nous pouvons récupérer les villes aux alentours.
-
-```
-var paris = { type: "Ville, coordinates: [ 48.856614, 2.3522219 ]};
-
-db.restaurants.find({
-  "localisation": {
-    $nearSphere: {
-      $geometry: paris
-    }
-  }
-})
-```
-
----
-
-### **Est-ce que les index peuvent ralentir une requête ?**
-
-Oui.
-
-- Un index peut ralentir les opérations INSERT car l'index doit être mis à jour pour chaque ligne insérée.
-- Il peut ralentir les opérations UPDATE où la colonne indexée est mise à jour.
-- Il peut ralentir les opérations DELETE car l'index doit être mis à jour pour chaque ligne supprimée.
-- Il peut ou non accélérer les opérations SELECT, en fonction des attributs de la requête par rapport à la définition de l'index et du plan d'exécution choisi par l'optimiseur.
