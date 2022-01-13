@@ -218,6 +218,14 @@ db.restaurants.find({
 
 ---
 
+### Agrégations
+
+Dans MongoDB, les opérations d'agrégation traitent les enregistrements/documents de données et renvoient des résultats calculés. Elles rassemblent les valeurs de divers documents et les regroupent, puis effectuent différents types d'opérations sur ces données groupées, comme la somme, la moyenne, le minimum, le maximum, etc. pour renvoyer un résultat calculé.
+
+Ci-dessous une agregation permettant de récupérer tous les CLIENTS féminins, et grace à lookup, on ne retourne pas le champ \_id de MongoDB 
+
+![image](https://user-images.githubusercontent.com/58698088/149370671-bf09c450-4bab-4ad3-b2fb-be9f4d3cf42e.png)
+
 ## Questionnaire
 ### 1.	Ecrivez une requête MongoDB pour afficher tous les documents dans les restaurants de la collection
 « find » suffit à récupérer toutes les données. On affine le résultat des recherches en détaillant la requête.
