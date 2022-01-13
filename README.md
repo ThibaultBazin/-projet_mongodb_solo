@@ -219,7 +219,7 @@ db.restaurants.find({
 ---
 
 ## Questionnaire
-### **1.	Ecrivez une requête MongoDB pour afficher tous les documents dans les restaurants de la collection**
+### 1.	Ecrivez une requête MongoDB pour afficher tous les documents dans les restaurants de la collection
 « find » suffit à récupérer toutes les données. On affine le résultat des recherches en détaillant la requête.
 ```
 []
@@ -227,7 +227,7 @@ db.restaurants.find({
 
 ---
 
-### **2.	Ecrivez une requête MongoDB pour afficher les champs restaurant_id, name, borough et cuisine pour tous les documents de la collection restaurant.**
+### 2.	Ecrivez une requête MongoDB pour afficher les champs restaurant_id, name, borough et cuisine pour tous les documents de la collection restaurant.
 ```
 [
   {
@@ -243,7 +243,7 @@ db.restaurants.find({
 
 ---
 
-### **3. Ecrivez une requête MongoDB pour afficher les champs restaurant_id, name, borough et cuisine, mais exclure le champ _id pour tous les documents de la collection restaurant.**
+### 3. Ecrivez une requête MongoDB pour afficher les champs restaurant_id, name, borough et cuisine, mais exclure le champ _id pour tous les documents de la collection restaurant.
 ```
 [
   {
@@ -261,7 +261,7 @@ db.restaurants.find({
 
 ---
 
-### **4. Ecrivez une requête MongoDB pour afficher les champs restaurant_id, nom, arrondissement et code postal, mais excluez le champ _id pour tous les documents de la collection restaurant.**
+### 4. Ecrivez une requête MongoDB pour afficher les champs restaurant_id, nom, arrondissement et code postal, mais excluez le champ _id pour tous les documents de la collection restaurant.
 ```
 [
   {
@@ -278,7 +278,7 @@ db.restaurants.find({
 
 ---
 
-### **5. Ecrivez une requête MongoDB pour afficher tous les restaurants qui sont dans l'arrondissement du Bronx.**
+### 5. Ecrivez une requête MongoDB pour afficher tous les restaurants qui sont dans l'arrondissement du Bronx.
 ```
 [
   {
@@ -291,7 +291,7 @@ db.restaurants.find({
 
 ---
 
-### **6. Ecrivez une requête MongoDB pour afficher les 5 premiers restaurants qui se trouvent dans le quartier du Bronx. Aller à l'éditeur**
+### 6. Ecrivez une requête MongoDB pour afficher les 5 premiers restaurants qui se trouvent dans le quartier du Bronx. Aller à l'éditeur
 ```
 [
   {
@@ -306,7 +306,7 @@ db.restaurants.find({
 
 ---
 
-### **7. Ecrivez une requête MongoDB pour afficher les 5 restaurants suivants après avoir sauté les 5 premiers qui sont dans le quartier du Bronx.**
+### 7. Ecrivez une requête MongoDB pour afficher les 5 restaurants suivants après avoir sauté les 5 premiers qui sont dans le quartier du Bronx.
 ```
 [
   {
@@ -323,21 +323,21 @@ db.restaurants.find({
 
 ---
 
-### **8. Ecrivez une requête MongoDB pour trouver les restaurants qui ont obtenu un score supérieur à 90. **
+### 8. Ecrivez une requête MongoDB pour trouver les restaurants qui ont obtenu un score supérieur à 90.
 ```
 db.restaurants.find({ "grades.score": { $gte: 90 }})
 ```
 
 ---
 
-### **9. Ecrivez une requête MongoDB pour trouver les restaurants qui ont obtenu un score supérieur à 80 mais inférieur à 100**
+### 9. Ecrivez une requête MongoDB pour trouver les restaurants qui ont obtenu un score supérieur à 80 mais inférieur à 100
 ```
 db.restaurants.find({ "grades.score": { $gte: 90 }, "grades.score": { $lte: 100 }})
 ```
 
 ---
 
-### **10. Ecrivez une requête MongoDB pour trouver les restaurants qui se situent dans une latitude inférieure à -95,754168.**
+### 10. Ecrivez une requête MongoDB pour trouver les restaurants qui se situent dans une latitude inférieure à -95,754168.
 ```
 db.restaurants.find({ "address.coord.0": { $gte: -95.754168 }})
 ```
