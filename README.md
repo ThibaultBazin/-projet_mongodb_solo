@@ -1,3 +1,65 @@
+# Compte rendu MongoDB Personnel, Thibault BAZIN
+
+---
+
+## Contexte
+Une chaine de restaurant souhaite récupérer des données clients afin de capitaliser sur un flux de personnes sans cesse grandissant (plusieurs dizaines de milliers de clients par semaine dans toute la France).
+
+Nous devons fournir un projet d'application centré sur un stockage des données avec MongoDB.
+
+Le projet dans son ensemble ne sera pas forcément terminé cete semaine, en revanche, toutes les intéractions, avec la base de données doivent être documentées et testées. Et toutes les questions posées devront être traitées.
+
+---
+
+## Pourquoi utiliser MongoDB ?
+
+MongoDB possède une capacité de requête approfondie. MongoDB prend en charge les requêtes dynamiques sur des documents à l'aide d'un langage de requête basé sur des documents presque aussi puissant que SQL.
+Aucune migration de schéma. Étant donné que MongoDB est sans schéma, notre code définit les schéma.
+
+Il y a aussi d'autres avantages qui apparaîtront à long terme, comme une meilleure scallabilité et une meilleure vitesse.
+
+---
+
+## Structuration de la base de données
+
+Nous avons créé 4 collections :
+- RESTAURANTS : La collection "RESTAURANTS" est alimentée par les restaurants de l'entreprise.
+- PRODUITS : Cette collection est alimentée en produits que les restaurants vendent
+- CLIENTS : La collection contient les informations des clients
+- COMMANDES : Les commandes passées par les clients
+
+![image](https://user-images.githubusercontent.com/58698088/149316357-efb7a356-dd06-471f-ac14-1bb5e4b21929.png)
+
+---
+
+## Pouvons-nous accélerer le traitement des requêtes ?
+(Prouver l'efficacité des index)
+
+Grace à la fonction explain, nous allons pouvoir comparer le temps d'execution des requêtes. Le temps d'execution est retourné dans le champ "executionTimeMillis" en millisecondes. Nous allons utiliser la collection "CLIENTS" contenant 1 million de clients.
+
+![image](https://user-images.githubusercontent.com/58698088/148981851-af133a9a-264a-4cc9-af70-6fbde32ed531.png)
+
+Nous allons sélectionner tous les clients ayant le sexe masculin "H".
+
+```
+db.CLIENTS.find({SEXE: "H"}).explain("executionStats")
+```
+
+Voici le temps d'execution sans index sur le champ "SEXE"
+
+![image](https://user-images.githubusercontent.com/58698088/149315926-88f9c847-b39b-4844-a214-0cf918716b84.png)
+
+Nous allons créer un index pour voir si le traitement de la requête est plus rapide avec le code suivant :
+```
+db.CLIENTS.createIndex( { SEXE : 1 } )
+```
+
+En exécutant la même requête, la requête mit ce temps pour être exécutée.
+
+![image](https://user-images.githubusercontent.com/58698088/149316180-ea1584ab-0083-454b-9188-443a42ebee79.png)
+
+En créant un index, la requête s'est exécutée 119ms plus rapidement.
+
 # **Questionnaire :**
 ### **1.	Ecrivez une requête MongoDB pour afficher tous les documents dans les restaurants de la collection**
 « find » suffit à récupérer toutes les données. On affine le résultat des recherches en détaillant la requête.
@@ -208,35 +270,6 @@ Je ne vois pas de différence avec la fonction pretty
 ![image](https://user-images.githubusercontent.com/58698088/148984172-535c8b13-2999-41cb-9e59-a042ca6e87c2.png)
 
 ---
-
-### **5 : Prouver l'efficacité des index**
-Grace à la fonction explain, nous allons pouvoir comparer le temps d'execution des requêtes, grace au champ "executionTimeMillis" qui retourne le temps d'execution en millisecondes. Nous allons utiliser la collection "CLIENTS" contenant 1 million de clients.
-
-![image](https://user-images.githubusercontent.com/58698088/148981851-af133a9a-264a-4cc9-af70-6fbde32ed531.png)
-
-Le code est le suivant :
-```
-db.restaurants.find({TEL:"0123456978"}).explain("executionStats")
-```
-
-J'ai créé un index sur le le champ PRENOM de la table CLIENTS grace au code suivant
-```
-db.CLIENTS.createIndex( { PRENOM : 1 } )
-```
-
-Avec index on a le temps d'execution ci-dessous
-
-```
-executionTimeMillis: 0
-```
-
-Et sans index
-
-```
-executionTimeMillis: 2
-```
-
-On gagne 2 ms d'execution quand on fait un find sur le champ PRENOM dans une table d'1M de lignes.
 
 ---
 
